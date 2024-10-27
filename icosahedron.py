@@ -6,7 +6,7 @@ import numpy as np
 import open3d as o3d
 
 from transformations import *
-from render import render_polyhedron, render_polyhedron_2
+from render import *
 
 def generate_icosahedron_vertices(radius):
     # The golden ratio
@@ -52,17 +52,28 @@ def generate_icosahedron_vertices(radius):
 
 def main():
     icosahedron = generate_icosahedron_vertices(5.0)
+
+    # render_polyhedron_3(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
+
     icosahedron = geodesic_subdivision(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
 
+    # render_polyhedron_3(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
+
     icosahedron["vertices"] = project_sphere(icosahedron["vertices"], radius=10.0)
+
+    # render_polyhedron_3(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
+
     icosahedron = dual_subdivision(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
 
-    render_polyhedron_2(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
+    # render_polyhedron_3(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
 
-    icosahedron = triangulate(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
+    # icosahedron = triangulate(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
 
-    render_polyhedron_2(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
+    # render_polyhedron_3(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
+
+    icosahedron = face_extrusion(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"], lambda x: (1.5, 0.75) if len(x) == 3 else (2, 0.8))
     
+    render_polyhedron_2(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
 
 if __name__ == "__main__":
     main()
