@@ -59,6 +59,8 @@ def main():
 
     # render_polyhedron_3(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
 
+    # icosahedron = geodesic_subdivision(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
+
     icosahedron["vertices"] = project_sphere(icosahedron["vertices"], radius=10.0)
 
     # render_polyhedron_3(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
@@ -71,9 +73,15 @@ def main():
 
     # render_polyhedron_3(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
 
-    icosahedron = face_extrusion(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"], lambda x: (1.5, 0.75) if len(x) == 3 else (2, 0.8))
+    # icosahedron = face_extrusion(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"], lambda x: (1.5, 0.75) if len(x) == 5 else (2, 0.8))
     
-    render_polyhedron_2(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
+    icosahedron["vertices"] = project_sphere(icosahedron["vertices"], radius=10.0)
+
+    icosahedron = face_extrusion(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"], lambda x: (0.8, 0.8))
+
+    icosahedron = triangulate(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
+
+    render_polyhedron_3(icosahedron["vertices"], icosahedron["edges"], icosahedron["faces"])
 
 if __name__ == "__main__":
     main()

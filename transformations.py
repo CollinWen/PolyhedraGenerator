@@ -67,6 +67,8 @@ def triangulate(vertices, edges, faces):
             for i in range(len(face)):
                 new_edges.append([face[i], centroid_idx])
                 new_faces.append([face[i], face[(i + 1) % len(face)], centroid_idx])
+        else:
+            new_faces.append(face)
 
     return {
         "vertices": np.vstack((np.array(vertices), np.array(new_vertices))), 
@@ -148,9 +150,10 @@ def face_extrusion(vertices, edges, faces, ext_fn):
 
         centroid = np.mean([vertices[f] for f in face], axis=0, keepdims=False)
         centroid = centroid*ext_len
-        new_vertices.append(centroid)
+        
 
         if ext_pct == 1.0:
+            new_vertices.append(centroid)
             for i in range(len(faces)):
                 new_edges.append((faces[i], len(vertices) + len(new_vertices) - 1))
                 
@@ -162,10 +165,15 @@ def face_extrusion(vertices, edges, faces, ext_fn):
                 new_vertices.append(v_coords + (centroid - v_coords)*ext_pct)
                 new_edges.append((face[i], len(vertices) + len(new_vertices) - 1))
                 
+                if i == len(face)-1:
+                    new_edges.append((len(vertices) + len(new_vertices) - len(face), len(vertices) + len(new_vertices) - 1))
+                    new_faces.append([face[i], face[i-len(face)+1], len(vertices)+len(new_vertices)-len(face), len(vertices)+len(new_vertices)-1])
                 if i != 0:
                     new_edges.append((len(vertices) + len(new_vertices) - 2, len(vertices) + len(new_vertices) - 1))
-                    new_faces.append([face[i-1], face[i], len(vertices)+len(new_vertices)-2, len(vertices)+len(new_vertices)-1])
+                    new_faces.append([face[i-1], face[i], len(vertices)+len(new_vertices)-1, len(vertices)+len(new_vertices)-2])
 
+            new_faces.append([len(vertices)+len(new_vertices)-i for i in range(len(face), 0, -1)])
+                    
     return {
         "vertices": np.vstack((vertices, np.array(new_vertices))), 
         "edges": np.vstack((edges, np.array(new_edges))), 
