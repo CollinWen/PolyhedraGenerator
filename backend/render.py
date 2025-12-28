@@ -4,6 +4,7 @@ Rendering and user inteface for rendering polyhedrons.
 
 import open3d as o3d
 import matplotlib.pyplot as plt
+import numpy as np
 
 def render_polyhedron(vertices, edges, faces):
     """

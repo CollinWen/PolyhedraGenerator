@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600&family=Chivo+Mono:ital,wght@0,300;0,400;0,700;1,400&family=Outfit:wght@200;300;400;600&display=swap');
+
+:root {
+  --color-background: #080808;
+  --color-text-primary: #e8e8e8;
+  --color-text-secondary: #888888;
+  --color-accent: #ff4d4d;
+  /* Harsh Red for industrial/warning vibe */
+  --color-accent-dim: rgba(255, 77, 77, 0.2);
+  --glass-bg: rgba(14, 14, 16, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.1);
+
+  --font-main: 'Outfit', sans-serif;
+  /* Cleaner, more humanist but modern */
+  --font-mono: 'Chivo Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  overflow: hidden;
+  background-image: url('/assets/gravel_texture.png');
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: multiply;
+  /* Darken the texture */
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Brutalist / Industrial UI Elements */
+.panel {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+button {
+  font-family: var(--font-mono);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  color: var(--color-text-primary);
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent-dim);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  border-color: #333;
+}
+
+select,
+input[type="text"],
+input[type="range"],
+textarea {
+  background: #111;
+  border: 1px solid #333;
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  padding: 0.5rem;
+  outline: none;
+  border-radius: 2px;
+}
+
+select:focus,
+input:focus,
+textarea:focus {
+  border-color: var(--color-accent);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border: 1px solid #000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+.blink {
+  animation: blink-animation 2s steps(2, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
